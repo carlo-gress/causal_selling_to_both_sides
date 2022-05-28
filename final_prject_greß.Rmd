@@ -2,7 +2,10 @@
 title: 'Final Report: Selling to both Sides (Moore 2012)'
 author: "Carlo Greß"
 date: "26 5 2022"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+bibliography: references.bib 
 ---
 
 ```{r setup, include=FALSE}
@@ -10,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r}
+```{r, include=FALSE}
 pacman::p_load(tidyverse, readxls, read.csv, dagitty)
 ```
 
@@ -21,10 +24,15 @@ The replication data set for Matthew Moore's article "Selling to both sides" is 
 The original article is available [here](https://www.tandfonline.com/doi/pdf/10.1080/03050629.2012.676511?casa_token=JNzRApl8w24AAAAA:Sth2YQPRDCYC-RSAX90DJVyzofnIauIWa9eU7561mATdM_fm2NdfEJHqKdOOavQeNwlJNLF-mvJExw ) 
 
 ```{r}
-moore_replication <- x
+load("Replication files\\moore selling to both sides Internaitonal Interactions.RData")
+
+moore_data <- x
 ```
 
 
 ## Introduction 
 
-In his article "Selling to both sides: The Effects of Major Conventional Weapons Transfers on Civil War Severity and Duration" (2012), Moore examines how imports of certain types of weapons impact both a civil war's duration and severity. 
+In his article "Selling to both sides: The Effects of Major Conventional Weapons Transfers on Civil War Severity and Duration" [@moore2012selling], Moore examines how transfers of certain types of weapons impact both a civil war's duration as well as its severity. More specifically, the article distinguishes between weapon transfers to rebel groups and weapon transfers to governments and compares potentially deviating effects. Regarding weapon characteristics, only a certain weapon type is considered: Major conventional weapons (MCW). Since the author uses the Stockholm International Peace Research Institute's (SIPRI) definition of MCW, this most importantly includes aircraft, armored vehicles, artillery, sensors, air defense systems,
+missiles, and ships. On the other hand, small arms as pistols and machine guns are excluded from the analysis. 
+
+Using data from the Peace Research Institute Oslo (PRIO) on conflicts and SIPRI data on weapon transfers, Moore examines the effect of transfers of these weapons to rebels and governments on two distinct dependent variables: the conflict's severity and the conflict's duration. 
