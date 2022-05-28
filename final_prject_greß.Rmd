@@ -1,0 +1,30 @@
+---
+title: 'Final Report: Selling to both Sides (Moore 2012)'
+author: "Carlo Greß"
+date: "26 5 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+pacman::p_load(tidyverse, readxls, read.csv, dagitty)
+```
+
+## Loading the data 
+
+The replication data set for Matthew Moore's article "Selling to both sides" is available [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/8PKAI0)
+
+The original article is available [here](https://www.tandfonline.com/doi/pdf/10.1080/03050629.2012.676511?casa_token=JNzRApl8w24AAAAA:Sth2YQPRDCYC-RSAX90DJVyzofnIauIWa9eU7561mATdM_fm2NdfEJHqKdOOavQeNwlJNLF-mvJExw ) 
+
+```{r}
+moore_replication <- x
+```
+
+
+## Introduction 
+
+In his article "Selling to both sides: The Effects of Major Conventional Weapons Transfers on Civil War Severity and Duration" (2012), Moore examines how imports of certain types of weapons impact both a civil war's duration and severity. 
