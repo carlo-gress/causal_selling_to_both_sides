@@ -58,6 +58,20 @@ ggdag(dag) +  theme_dag_blank()
 moore_replication$new_lstarmimp5 <- log(moore_replication$starmimp5)
 ```
 
+```{r}
+moore_replication_subset = moore_replication %>% 
+  subset(sipricomp == 1) %>% 
+  subset(conflict_name != "Vietnam War")
+```
+
+```{r}
+model3 <- lm(lnbdb ~ lstarmimp5 + lrarmimp5 + lnduration + lnpop + lnmilqual + lngdp + cw + lnmountain + democ  + ethnicpolar + relpolar, data = moore_replication_subset)
+```
+
+```{r}
+summary(model3)
+```
+
 
 # Improvement 
 -	DAGs
