@@ -3,8 +3,8 @@ title: 'Final Report: Selling to both Sides (Moore 2012)'
 author: "Carlo Greß"
 date: "26 5 2022"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 bibliography: references.bib 
 ---
 
@@ -17,7 +17,10 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(tibble)
 library(ggdag)
+library(stargazer)
+library(survival)
 ```
+ 
 
 ## Loading the data 
 
@@ -25,10 +28,12 @@ The replication data set for Matthew Moore's article "Selling to both sides" is 
 
 The original article is available [here](https://www.tandfonline.com/doi/pdf/10.1080/03050629.2012.676511?casa_token=JNzRApl8w24AAAAA:Sth2YQPRDCYC-RSAX90DJVyzofnIauIWa9eU7561mATdM_fm2NdfEJHqKdOOavQeNwlJNLF-mvJExw ) 
 
-```{r}
+The rmd file used to create this report as well as all complementary files can be accessed [here](https://github.com/carlo-gress/causal_selling_to_both_sides)
+
+```{r, include=F}
 load("Replication files\\moore selling to both sides Internaitonal Interactions.RData")
 
-moore_data <- x
+moore_replication <- x
 ```
 
 
@@ -58,23 +63,53 @@ ggdag(dag) +  theme_dag_blank()
 moore_replication$new_lstarmimp5 <- log(moore_replication$starmimp5)
 ```
 
+
+```{r}
+moore_replication[is.na(moore_replication) | moore_replication == "-Inf"] <- NA
+```
+
 ```{r}
 moore_replication_subset = moore_replication %>% 
   subset(sipricomp == 1) %>% 
   subset(conflict_name != "Vietnam War")
 ```
 
-```{r}
-model3 <- lm(lnbdb ~ lstarmimp5 + lrarmimp5 + lnduration + lnpop + lnmilqual + lngdp + cw + lnmountain + democ  + ethnicpolar + relpolar, data = moore_replication_subset)
-```
+
 
 ```{r}
+moore_replication_subset %>%
+  select(starmimp5, lstarmimp5) %>% 
+  head(., 5)
+```
+
+
+
+```{r}
+model3 <- lm(lnbdb ~ new_lstarmimp5 + lrarmimp5 + lnduration + lnpop + lnmilqual + lngdp + cw + lnmountain + democ  + ethnicpolar + relpolar, data = moore_replication_subset)
+
 summary(model3)
 ```
+
 ```{r}
-model5 <- lm(lnbdb  ~ lstarmimp5 + lrarmimp5 + lnduration + lnpop + lnmilqual + lngdp + cw + lnmountain + democ + ethnicpolar + relpolar + intervention, data = moore_replication_subset)
+model5 <- lm(lnbdb ~ new_lstarmimp5 + lrarmimp5 + lnduration + lnpop + lnmilqual + lngdp + cw + lnmountain + democ + ethnicpolar + relpolar + intervention, data = moore_replication_subset)
 
 summary(model5)
+```
+
+```{r}
+moore_replication_subset$status = 1
+```
+
+```{r}
+model7 <- coxph( Surv(duration, status) ~ new_lstarmimp5 + lrarmimp5 + lnpop + lnmilqual + lngdp + cw + lnmountain + democ  + ethnicpolar + relpolar, data = moore_replication_subset)
+
+summary(model7)
+```
+
+```{r}
+model9 <- coxph(Surv(duration, status) ~ new_lstarmimp5 + lrarmimp5 + lnpop + lnmilqual + lngdp + cw + lnmountain + democ + ethnicpolar + relpolar + intervention, data = moore_replication_subset)
+
+summary(model9)
 ```
 
 
