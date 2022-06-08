@@ -1,1 +1,1 @@
-# causal_selling_to_both_sides
+# Final Project: Replication and critique of “Selling to both Sides” (Moore 2012)
